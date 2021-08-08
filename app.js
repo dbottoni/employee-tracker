@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
 const db = require('./db/connection');
 const constTable = require('console.table');
+
 //const express = require('express');
 
 db.connect(err => {
@@ -81,13 +82,16 @@ function addDept() {
           return false;
         }
       }
-    }
-  ])
-  
- }
+    },
+  ]).then(answer => {
+    db.query(`INSERT INTO department SET ?`, {name: answer.department}, (err) =>{
+      if(err) throw err;
+      console.log(`New department ${answer.department} has been added.`);
+      begin();
+    })
+  }); 
+}
 
 
 
 
-
-//trackerAction();
